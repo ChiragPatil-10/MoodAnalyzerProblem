@@ -12,7 +12,9 @@ public class MoodAnalyzer {
             return "Happy";
         }else if (mood.toLowerCase().contains("sad")) {
             return "Sad";
-        }else {
+        }else if(mood.toLowerCase().contains("any")) {
+                return "Happy";
+        } else {
             return "Neutral";
         }
 
