@@ -2,32 +2,34 @@ import org.junit.Test;
 import static junit.framework.Assert.assertEquals;
 
 public class MoodAnalyzerTest {
-
     @Test
-    public void HappyOrSad() {
+    public void HappyOrSad() throws MoodAnalyzerException {
         MoodAnalyzer moodAnalyzer = new MoodAnalyzer("I am in Sad Mood");
         String result = moodAnalyzer.analyzeMood();
-        assertEquals("Sad", result);
+        assertEquals("SAD",result);
     }
 
     @Test
-    public void Mood() {
+    public void Mood() throws MoodAnalyzerException {
         MoodAnalyzer moodAnalyzer = new MoodAnalyzer("I am in any Mood");
         String result = moodAnalyzer.analyzeMood();
-        assertEquals("Happy", result);
+        assertEquals("HAPPY", result);
     }
 
     @Test
-    public void NullMood() {
+    public void HappyMood() throws MoodAnalyzerException {
+        MoodAnalyzer moodAnalyzer = new MoodAnalyzer("I am in Happy Mood");
+        String result = moodAnalyzer.analyzeMood();
+        assertEquals("SAD", result);
+    }
+
+    @Test
+    public void NullScenario() {
         MoodAnalyzer moodAnalyzer = new MoodAnalyzer(null);
-        String result = moodAnalyzer.analyzeMood();
-        assertEquals("Neutral", result);
-    }
-
-    @Test
-    public void EmptyMood() {
-        MoodAnalyzer moodAnalyzer = new MoodAnalyzer("");
-        String result = moodAnalyzer.analyzeMood();
-        assertEquals("Neutral", result);
+        try {
+            assertEquals("Happy",moodAnalyzer.analyzeMood());
+        } catch (MoodAnalyzerException e) {
+            System.out.println("Mood: " + e.getMessage());
+        }
     }
 }

@@ -1,47 +1,81 @@
+enum MoodError{
+    Null_Mood("Mood cannot be null"),
+    Empty_Mood("Mood cannot be empty"),
+    Invalid_Mood("Invalid mood input");
+
+    private final String message;
+
+    MoodError(String message){
+        this.message = message;
+    }
+    public String getMessage(){
+        return message;
+    }
+}
+
+class MoodAnalyzerException extends Exception{
+    public MoodAnalyzerException(MoodError error){
+        super(error.getMessage());
+    }
+}
 public class MoodAnalyzer {
     private String mood;
 
     public MoodAnalyzer() {
-        mood = "Happy";
+        mood = null;
     }
 
     public MoodAnalyzer(String mood) {
         this.mood = mood;
     }
 
-    public String analyzeMood() {
-        try {
-            if (mood == null || mood.isEmpty()) {
-                throw new IllegalArgumentException("Invalid mood: Mood cannot be null or empty");
-            }
+    public String analyzeMood() throws MoodAnalyzerException {
+        if (mood == null)
+            throw new MoodAnalyzerException(MoodError.Null_Mood);
 
-            if (mood.toLowerCase().contains("happy")) {
-                return "Happy";
-            } else if (mood.toLowerCase().contains("sad")) {
-                return "Sad";
-            } else if (mood.toLowerCase().contains("any")) {
-                return "Happy";
-            } else {
-                return "Neutral";
-            }
-        } catch (IllegalArgumentException e) {
-            return "Neutral";
+        if(mood.isEmpty())
+            throw new MoodAnalyzerException(MoodError.Empty_Mood);
+
+        if (mood.toLowerCase().contains("happy")) {
+            return "SAD";
+        } else if (mood.toLowerCase().contains("sad")) {
+            return "SAD";
+        } else if (mood.toLowerCase().contains("any")) {
+            return "HAPPY";
+        } else {
+            throw new MoodAnalyzerException(MoodError.Invalid_Mood);
         }
     }
 
     public static void main(String[] args) {
-        System.out.println("Welcome to Mood Analyzer Problem");
+        System.out.println("Welcome to Mood Analyser Problem");
 
-        MoodAnalyzer moodAnalyze1 = new MoodAnalyzer("Happy Mood");
-        System.out.println("Mood: " + moodAnalyze1.analyzeMood());
+        MoodAnalyzer moodAnalyzer1 = new MoodAnalyzer("Happy Mood");
+        try {
+            System.out.println("Mood: " + moodAnalyzer1.analyzeMood());
+        } catch (MoodAnalyzerException e) {
+            System.out.println("Exception: "+e.getMessage());
+        }
 
         MoodAnalyzer moodAnalyzer2 = new MoodAnalyzer("Sad Mood");
-        System.out.println("Mood: " + moodAnalyzer2.analyzeMood());
+        try {
+            System.out.println("Mood: " + moodAnalyzer2.analyzeMood());
+        } catch (MoodAnalyzerException e) {
+            System.out.println("Exception: "+ e.getMessage());
+        }
 
         MoodAnalyzer moodAnalyzer3 = new MoodAnalyzer("");
-        System.out.println("Mood: " + moodAnalyzer3.analyzeMood());
+        try {
+            System.out.println("Mood: " + moodAnalyzer3.analyzeMood());
+        } catch (MoodAnalyzerException e) {
+            System.out.println("Exception: " + e.getMessage());
+        }
 
-        MoodAnalyzer moodAnalyzer4 = new MoodAnalyzer(null);
-        System.out.println("Mood: " + moodAnalyzer4.analyzeMood());
+        MoodAnalyzer moodAnalyzer4 = new MoodAnalyzer();
+        try {
+            System.out.println("Mood: "+ moodAnalyzer4.analyzeMood());
+        }catch (MoodAnalyzerException e){
+            System.out.println("Exception: "+ e.getMessage());
+        }
     }
 }
