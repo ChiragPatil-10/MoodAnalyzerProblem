@@ -2,7 +2,7 @@ public class MoodAnalyzer {
     private String mood;
 
     public MoodAnalyzer() {
-        mood = "SAD";
+        mood = "HAPPY";
     }
 
     public MoodAnalyzer(String mood) {
@@ -14,13 +14,11 @@ public class MoodAnalyzer {
             return "SAD";
 
         if(mood.toLowerCase().contains("happy")) {
-            return "Happy";
+            return "SAD";
         }else if (mood.toLowerCase().contains("sad")) {
-            return "Sad";
-        }else if(mood.toLowerCase().contains("any")) {
-                return "Happy";
-        } else {
-            return "Neutral";
+            return "SAD";
+        }else  {
+            return "HAPPY";
         }
     }
 
